@@ -1,6 +1,9 @@
 package com.parking.demoparkapi.service;
 
 import com.parking.demoparkapi.entity.Usuario;
+import com.parking.demoparkapi.exception.EntityNotFoundException;
+import com.parking.demoparkapi.exception.PasswordInvalidException;
+import com.parking.demoparkapi.exception.UsernameUniqueViolationException;
 import com.parking.demoparkapi.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,22 +18,26 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     @Transactional
     public Usuario salvar(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+        try {
+            return usuarioRepository.save(usuario);
+        } catch (org.springframework.dao.DataIntegrityViolationException ex) {
+            throw new UsernameUniqueViolationException(String.format("Username {%s} já cadastrado", usuario.getUsername()));
+        }
+
     }
     @Transactional(readOnly = true)
     public Usuario buscarPorId(Long id) {
     return usuarioRepository.findById(id).orElseThrow(
-            () -> new RuntimeException("Id não encontrado")
-    );
+            () -> new EntityNotFoundException(String.format("Usuário id=%s não encontrado", id)));
     }
     @Transactional
     public Usuario editarSenha(Long id, String senhaAtual, String novaSenha, String confirmaSenha) {
         if(!novaSenha.equals(confirmaSenha)){
-            throw new RuntimeException("As senhas não são iguais.");
+            throw new PasswordInvalidException(String.format("As senhas do username não são iguais."));
         }
     Usuario user = buscarPorId(id);
         if(!user.getPassword().equals(senhaAtual)){
-            throw new RuntimeException("As senhas não conferem.");
+            throw new PasswordInvalidException(String.format("As senhas do username não conferem."));
         }
     user.setPassword(novaSenha);
     return user;

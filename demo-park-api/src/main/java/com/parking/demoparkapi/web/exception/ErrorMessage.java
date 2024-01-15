@@ -1,5 +1,6 @@
 package com.parking.demoparkapi.web.exception;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.ToString;
@@ -14,14 +15,11 @@ import java.util.Map;
 public class ErrorMessage {
 
     private String path;
-
     private String method;
-
     private int status;
-
     private String statusText;
-
     private String message;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, String> errors;
 
     public ErrorMessage() {
