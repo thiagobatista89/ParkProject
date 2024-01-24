@@ -1,5 +1,9 @@
 package com.parking.demoparkapi.jwt;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,8 +37,59 @@ public class JwtUtils {
     }
 
     public static JwtToken createToken(String username, String role){
+        Date issuedAt = new Date();
+        Date limit = toExprireDate(issuedAt);
+
+        String token = Jwts.builder()
+                .setHeaderParam("typ", "JWT")
+                .setSubject(username)
+                .setIssuedAt(issuedAt)
+                .setExpiration(limit)
+                .signWith(generateKey(), SignatureAlgorithm.HS256)
+                .claim("role", role)
+                .compact();
+
+        return new JwtToken(token);
+
+    }
+
+    public static Claims getClaimsFromToken(String token){
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(generateKey()).build()
+                    .parseClaimsJws(refactorToken(token)).getBody();
+        } catch (JwtException ex){
+            log.error(String.format("Token invalido %s", ex.getMessage()));
+        }
+
         return null;
     }
+
+    public static String getUsernameFromToken(String token) {
+        return getClaimsFromToken(token).getSubject();
+    }
+
+    public static boolean isTokenValid(String token) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(generateKey()).build()
+                    .parseClaimsJws(refactorToken(token));
+            return true;
+        } catch (JwtException ex){
+            log.error(String.format("Token invalido %s", ex.getMessage()));
+        }
+        return false;
+    }
+
+
+    public static String refactorToken(String token) {
+        if(token.contains(JWT_BEARER)) {
+            return token.substring(JWT_BEARER.length());
+        }
+        return token;
+    }
+
+
 
 
 }
