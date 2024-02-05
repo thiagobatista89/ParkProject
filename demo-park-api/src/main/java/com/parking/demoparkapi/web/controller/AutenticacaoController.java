@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 
 public class AutenticacaoController {
+
     private final JwtUserDetailsService detailsService;
     private final AuthenticationManager authenticationManager;
 
@@ -33,14 +34,17 @@ public class AutenticacaoController {
         try {
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword());
+
             authenticationManager.authenticate(authenticationToken);
+
             JwtToken token = detailsService.getTokenAuthenticated(dto.getUsername());
+
             return ResponseEntity.ok(token);
         } catch (AuthenticationException ex) {
-            log.warn("Bad Credencials from Username '{}'", dto.getUsername());
+            log.warn("Bad Credentials from username '{}'", dto.getUsername());
         }
         return ResponseEntity
                 .badRequest()
-                .body(new ErrorMessage(request, HttpStatus.BAD_REQUEST, "Credenciais inválidas"));
+                .body(new ErrorMessage(request, HttpStatus.BAD_REQUEST, "Credenciais Inválidas"));
     }
 }
