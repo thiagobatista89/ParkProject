@@ -1,5 +1,6 @@
 package com.parking.demoparkapi.web.exception;
 
+import com.parking.demoparkapi.exception.CpfUniqueViolationException;
 import com.parking.demoparkapi.exception.EntityNotFoundException;
 import com.parking.demoparkapi.exception.PasswordInvalidException;
 import com.parking.demoparkapi.exception.UsernameUniqueViolationException;
@@ -51,7 +52,7 @@ public class ApiExceptionHandler {
 
     }
 
-    @ExceptionHandler(UsernameUniqueViolationException.class)
+    @ExceptionHandler({UsernameUniqueViolationException.class, CpfUniqueViolationException.class})
     public ResponseEntity<ErrorMessage> uniqueViolationException(RuntimeException ex,
                                                                         HttpServletRequest request)
     {
