@@ -8,16 +8,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class VagaCreateDto {
-    @NotBlank
+    @NotBlank(message = "{NotBlank.vagaCreateDto.codigo}")
     @Size(min = 4, max = 4)
     private String codigo;
-
-    @NotBlank
-    @Pattern(regexp = "LIVRE|OCUPADA")
+    @NotBlank(message = "{NotBlank.vagaCreateDto.status}")
+    @Pattern(regexp = "LIVRE|OCUPADA", message = "{Pattern.vagaCreateDto.status}")
     private String status;
 }
