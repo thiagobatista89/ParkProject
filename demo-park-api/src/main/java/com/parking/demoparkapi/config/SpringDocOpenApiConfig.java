@@ -26,7 +26,7 @@ public class SpringDocOpenApiConfig {
     }
 
 
-    private SecurityScheme securityScheme() {
+    private SecurityScheme   securityScheme() {
         return new SecurityScheme()
                 .description("Insira um bearer token válido para prosseguir")
                 .type(SecurityScheme.Type.HTTP)

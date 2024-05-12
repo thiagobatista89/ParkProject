@@ -24,7 +24,6 @@ import java.util.Objects;
 @EntityListeners(AuditingEntityListener.class)
 public class ClienteVaga {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
