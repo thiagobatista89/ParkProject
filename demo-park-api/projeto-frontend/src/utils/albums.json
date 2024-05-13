@@ -1,0 +1,12 @@
+[
+    { "name": "Album01", "images": ["https://picsum.photos/200"], "externalUrls": "", "value": 10 },
+    { "name": "Album02", "images": ["https://picsum.photos/200"], "externalUrls": "", "value": 10 },
+    { "name": "Album03", "images": ["https://picsum.photos/200"], "externalUrls": "", "value": 10 },
+    { "name": "Album04", "images": ["https://picsum.photos/200"], "externalUrls": "", "value": 10 },
+    { "name": "Album05", "images": ["https://picsum.photos/200"], "externalUrls": "", "value": 10 },
+    { "name": "Album06", "images": ["https://picsum.photos/200"], "externalUrls": "", "value": 10 },
+    { "name": "Album07", "images": ["https://picsum.photos/200"], "externalUrls": "", "value": 10 },
+    { "name": "Album08", "images": ["https://picsum.photos/200"], "externalUrls": "", "value": 10 },
+    { "name": "Album09", "images": ["https://picsum.photos/200"], "externalUrls": "", "value": 10 },
+    { "name": "Album10", "images": ["https://picsum.photos/200"], "externalUrls": "", "value": 10 }
+  ]
